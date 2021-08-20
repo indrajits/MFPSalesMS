@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS RetailSales;  
+CREATE TABLE RetailSales (  
+id INT AUTO_INCREMENT  PRIMARY KEY,  
+region VARCHAR(50) NOT NULL,
+zone_details VARCHAR(50) NOT NULL,
+district VARCHAR(50) NOT NULL,
+dealer_code VARCHAR(50) NOT NULL,
+dealer_name VARCHAR(50) NOT NULL,
+status VARCHAR(50) NOT NULL,
+month INT(8) NOT NULL,
+year INT(8) NOT NULL,
+qty INT(8) NOT NULL
+);
