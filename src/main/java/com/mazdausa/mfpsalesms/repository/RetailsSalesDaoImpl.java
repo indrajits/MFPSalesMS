@@ -36,7 +36,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 		StringBuilder orderBy = new StringBuilder();
 		
 		if (region!=null && !region.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("region=" + "'" + region.trim() + "'");
 			} else {
@@ -44,7 +44,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (zone!=null && !zone.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("zone_details=" + "'" + zone.trim() + "'");
 			} else {
@@ -52,7 +52,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (district!=null && !district.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("district=" + "'" + district.trim() + "'");
 			} else {
@@ -60,7 +60,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (dealer_name!=null && !dealer_name.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("dealer_name=" + "'" + dealer_name.trim() + "'");
 			} else {
@@ -75,7 +75,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 						sortby[0].trim().contains("zone_details") || 
 						sortby[0].trim().contains("district") || 
 						sortby[0].trim().contains("dealer_name")) {
-					if (orderBy.isEmpty()) {
+					if (orderBy.length() == 0) {
 						orderBy.append(" ORDER BY " + sortby[0] + " " + sortby[1]);
 					} else {
 						orderBy.append(", " + sortby[0] + " " + sortby[1]);
@@ -84,11 +84,11 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}
 		}		
 		
-		if (!queryCondition.isEmpty()) {
+		if (!(queryCondition.length() == 0)) {
 			query.append(queryCondition);			
 		}
 		
-		if (!orderBy.isEmpty()) {
+		if (!(orderBy.length() == 0)) {
 			query.append(orderBy);
 		}		
 		
@@ -105,7 +105,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 		StringBuilder queryCondition = new StringBuilder();
 		
 		if (region!=null && !region.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("region=" + "'" + region.trim() + "'");
 			} else {
@@ -113,7 +113,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (zone!=null && !zone.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("zone_details=" + "'" + zone.trim() + "'");
 			} else {
@@ -121,7 +121,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (district!=null && !district.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("district=" + "'" + district.trim() + "'");
 			} else {
@@ -129,7 +129,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (dealer_name!=null && !dealer_name.trim().isEmpty()) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("dealer_name=" + "'" + dealer_name.trim() + "'");
 			} else {
@@ -137,7 +137,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (year > 0) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("year=" + year);
 			} else {
@@ -145,7 +145,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		if (month > 0 && month < 13) {
-			if (queryCondition.isEmpty()) {
+			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
 				queryCondition.append("month=" + month);
 			} else {
@@ -153,7 +153,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		
-		if (!queryCondition.isEmpty()) {
+		if (!(queryCondition.length() == 0)) {
 			query.append(queryCondition);			
 		}
 		
