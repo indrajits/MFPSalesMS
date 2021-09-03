@@ -3,12 +3,17 @@
  */
 package com.mazdausa.mfpsalesms.repository;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mazdausa.mfpsalesms.pojo.CarlineSale;
 import com.mazdausa.mfpsalesms.pojo.RetailSales;
 
 /**
@@ -28,7 +33,7 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 	
 	@Override
 	public List<RetailSales> findAll(String region, String zone, String district, String dealer_name,
-			List<String> sortBy) {
+			Map<String, String> sortBy) {
 		// TODO Auto-generated method stub
 		
 		StringBuilder query = new StringBuilder("select * from RETAILSALES");
@@ -68,21 +73,22 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 			}			
 		}
 		
-		if (sortBy!=null && !sortBy.isEmpty()) {
-			for (String sort : sortBy) {
-				String sortby[] = sort.split("-");
-				if (sortby[0].trim().contains("region") ||
-						sortby[0].trim().contains("zone_details") || 
-						sortby[0].trim().contains("district") || 
-						sortby[0].trim().contains("dealer_name")) {
+		if (sortBy != null && !sortBy.isEmpty()) {
+			Set<String> keyset = sortBy.keySet();
+			for (String columnName : keyset) {
+				if (columnName.trim().contains("region") ||
+						columnName.trim().contains("zone_details") || 
+						columnName.trim().contains("district") || 
+						columnName.trim().contains("dealer_name")) {
 					if (orderBy.length() == 0) {
-						orderBy.append(" ORDER BY " + sortby[0] + " " + sortby[1]);
+						orderBy.append(" ORDER BY " + columnName.trim() + " " + sortBy.get(columnName));
 					} else {
-						orderBy.append(", " + sortby[0] + " " + sortby[1]);
-					}								
-				}			
+						orderBy.append(", " + columnName.trim() + " " + sortBy.get(columnName));
+					}
+				}
 			}
-		}		
+		}
+				
 		
 		if (!(queryCondition.length() == 0)) {
 			query.append(queryCondition);			
@@ -160,6 +166,53 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 		Integer monthSummary = jdbcTemplate.queryForObject(query.toString(), Integer.class);
 		
 		return monthSummary;
+	}
+
+	@Override
+	public List<CarlineSale> fetchAllCarlineSales(List<String> carlines, 
+			Map<String, String> sortBy, int year,
+			Function<List<String>, String> convertCarlineListToString) {
+		// TODO Auto-generated method stub
+		
+		StringBuilder query = new StringBuilder("select * from CarlineSales");
+		StringBuilder queryCondition = new StringBuilder();
+		StringBuilder orderBy = new StringBuilder();
+				
+		String carlineModels = convertCarlineListToString.apply(carlines);
+		if (year == 0) {
+			queryCondition.append(" where year = " + Calendar.getInstance().get(Calendar.YEAR));
+		} else {
+			queryCondition.append(" where year = " + year);
+		}
+		
+		if (carlineModels != null && !carlineModels.trim().isEmpty() && !carlineModels.trim().equals("all")) {			
+			queryCondition.append(" and carline in " + "(" + carlineModels.trim() + ")");					
+		}
+		
+		if (sortBy != null && !sortBy.isEmpty()) {
+			Set<String> keyset = sortBy.keySet();
+			for (String carline : keyset) {
+				if (carline.trim().contains("carline")) {
+					if (orderBy.length() == 0) {
+						orderBy.append(" ORDER BY " + carline.trim() + " " + sortBy.get(carline));
+					} else {
+						orderBy.append(", " + carline.trim() + " " + sortBy.get(carline));
+					}
+				}
+			}
+		}
+		
+		if (!(queryCondition.length() == 0)) {
+			query.append(queryCondition);			
+		}
+		
+		if (!(orderBy.length() == 0)) {
+			query.append(orderBy);
+		}
+		
+		List<CarlineSale> carlineSales = jdbcTemplate.query(query.toString(), new CarlineSalesRowMapper());
+		
+		return carlineSales;
 	}
 
 }

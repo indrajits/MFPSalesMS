@@ -178,4 +178,18 @@ insert into RetailSales(month, year, qty, dealer_code, dealer_name, status, regi
 insert into RetailSales(month, year, qty, dealer_code, dealer_name, status, region, zone_details, district) values (04, 2021, 25, '70150', 'FREEWAY MAZDA'			    , 'A', 'GU', '02', '02')
 
 
+insert into CarlineSales(month, year, qty, carline) values (01, 2021, 25, 'CX9')
+insert into CarlineSales(month, year, qty, carline) values (02, 2021, 25, 'CX9')
+insert into CarlineSales(month, year, qty, carline) values (03, 2021, 25, 'CX9')
+insert into CarlineSales(month, year, qty, carline) values (04, 2021, 25, 'CX9')
+insert into CarlineSales(month, year, qty, carline) values (01, 2021, 25, 'MX3')
+insert into CarlineSales(month, year, qty, carline) values (02, 2021, 25, 'MX3')
+insert into CarlineSales(month, year, qty, carline) values (03, 2021, 25, 'MX3')
+insert into CarlineSales(month, year, qty, carline) values (04, 2021, 25, 'MX3')
+insert into CarlineSales(month, year, qty, carline) values (01, 2021, 25, 'MX2')
+insert into CarlineSales(month, year, qty, carline) values (02, 2021, 25, 'MX2')
+insert into CarlineSales(month, year, qty, carline) values (03, 2021, 25, 'MX2')
+insert into CarlineSales(month, year, qty, carline) values (04, 2021, 25, 'MX2')
+
+
 

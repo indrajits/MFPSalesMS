@@ -23,6 +23,6 @@ public class RetailSalesCarline {
 
 	@ApiModelProperty(notes = "Carline Detail")
 	private String Carline;
-	@ApiModelProperty(notes = "Monthly Feed")
+	@ApiModelProperty(notes = "Monthly Feeds")
 	private List<MonthFeed> monthFeeds;
 }

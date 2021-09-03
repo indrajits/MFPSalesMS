@@ -4,17 +4,17 @@
 package com.mazdausa.mfpsalesms.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mazdausa.mfpsalesms.helper.RetailSalesHelper;
 import com.mazdausa.mfpsalesms.model.MonthFeed;
 import com.mazdausa.mfpsalesms.model.RetailSales;
-import com.mazdausa.mfpsalesms.model.RetailSalesCarline;
 import com.mazdausa.mfpsalesms.model.request.RetailCarlineSalesRequest;
-import com.mazdausa.mfpsalesms.model.response.Dealer;
+import com.mazdausa.mfpsalesms.pojo.CarlineSale;
 import com.mazdausa.mfpsalesms.repository.RetailSalesDao;
 
 /**
@@ -36,7 +36,7 @@ public class RetailSalesServiceImpl implements RetailSalesService {
 	
 	@Override
 	public List<RetailSales> getRetailSalesData(String region, String zone, String district,
-			String dealer_name, int year, List<String> sortBy) {
+			String dealer_name, int year, Map<String, String> sortBy) {
 		// TODO Auto-generated method stub
 				
 		List<com.mazdausa.mfpsalesms.pojo.RetailSales> retailSalesPojoList = 
@@ -73,24 +73,35 @@ public class RetailSalesServiceImpl implements RetailSalesService {
 	}
 
 	@Override
-	public List<RetailSalesCarline> getRetailCarlineSalesData(RetailCarlineSalesRequest retailCarlineSalesRequest) {
+	public Map<String, List<MonthFeed>> getRetailCarlineSalesData(RetailCarlineSalesRequest retailCarlineSalesRequest) {
 		// TODO Auto-generated method stub
-		String carline = "";
-		MonthFeed monthFeed = new MonthFeed("", "", "");
+		List<CarlineSale> carlineSales = null;
 		
-		List<MonthFeed> monthFeeds = new ArrayList<MonthFeed>();
-		monthFeeds.add(monthFeed);
+		if (retailCarlineSalesRequest == null || 
+				(retailCarlineSalesRequest.getCarlines() == null && 
+				retailCarlineSalesRequest.getSortby() == null && 
+				retailCarlineSalesRequest.getYear() == 0)) {
+			carlineSales = this.retailSalesDao.
+					fetchAllCarlineSales(null, 
+					null, Calendar.getInstance().get(Calendar.YEAR),
+					this.retailSalesHelper.convertCarlineModelstoStrings);
+		} else {
+			carlineSales = this.retailSalesDao.
+					fetchAllCarlineSales(retailCarlineSalesRequest.getCarlines(), 
+					retailCarlineSalesRequest.getSortby(), 
+					retailCarlineSalesRequest.getYear(), 
+					this.retailSalesHelper.convertCarlineModelstoStrings);
+		}
 		
-		RetailSalesCarline retailSalesCarline = new RetailSalesCarline(carline, monthFeeds);
-		List<RetailSalesCarline> retailSalesCarlines = new ArrayList<RetailSalesCarline>();
-		retailSalesCarlines.add(retailSalesCarline);
+		Map<String, List<MonthFeed>> carlineSalesMap = 
+				this.retailSalesHelper.prepareCarlineSalesMap.apply(carlineSales);	
 		
-		return retailSalesCarlines;
+		return carlineSalesMap;
 	}
 
 	@Override
 	public List<RetailSales> getDailySalesRateData(String region, String zone, String district,
-			String dealer_name, int year, List<String> sortBy) {
+			String dealer_name, int year, Map<String, String> sortBy) {
 		// TODO Auto-generated method stub
 		/*Dealer dealer = new Dealer("", "", "", "", "");
 		MonthFeed monthFeed = new MonthFeed("", "", "");

@@ -21,18 +21,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RetailCarlineSalesRequest {
-
-	@ApiModelProperty(notes = "Region Details")
-	private String region;
-	@ApiModelProperty(notes = "Zone Details")
-	private String zone;
-	@ApiModelProperty(notes = "District Details")
-	private String district;
-	@ApiModelProperty(notes = "Year Details")
-	private String year;
+	
 	@ApiModelProperty(notes = "Sorting Details")
 	private Map<String, String> sortby;
 	@ApiModelProperty(notes = "Carline List")
 	private List<String> carlines;
+	@ApiModelProperty(notes = "Year")
+	private int year;
 	
 }
