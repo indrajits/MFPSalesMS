@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mazdausa.mfpsalesms.model.response.Dealer;
 import com.mazdausa.mfpsalesms.pojo.CarlineSale;
 import com.mazdausa.mfpsalesms.pojo.RetailSales;
 
@@ -32,71 +33,33 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 	}
 	
 	@Override
-	public List<RetailSales> findAll(String region, String zone, String district, String dealer_name,
-			Map<String, String> sortBy) {
+	public List<RetailSales> findAll(List<Dealer> dealerList) {
 		// TODO Auto-generated method stub
 		
 		StringBuilder query = new StringBuilder("select * from RETAILSALES");
 		StringBuilder queryCondition = new StringBuilder();
-		StringBuilder orderBy = new StringBuilder();
+		//StringBuilder orderBy = new StringBuilder();
 		
-		if (region!=null && !region.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("region=" + "'" + region.trim() + "'");
-			} else {
-				queryCondition.append(" and region=" + "'" + region.trim() + "'");
-			}			
-		}
-		if (zone!=null && !zone.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("zone_details=" + "'" + zone.trim() + "'");
-			} else {
-				queryCondition.append(" and zone_details=" + "'" + zone.trim() + "'");
-			}			
-		}
-		if (district!=null && !district.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("district=" + "'" + district.trim() + "'");
-			} else {
-				queryCondition.append(" and district=" + "'" + district.trim() + "'");
-			}			
-		}
-		if (dealer_name!=null && !dealer_name.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("dealer_name=" + "'" + dealer_name.trim() + "'");
-			} else {
-				queryCondition.append(" and dealer_name=" + "'" + dealer_name.trim() + "'");
-			}			
-		}
-		
-		if (sortBy != null && !sortBy.isEmpty()) {
-			Set<String> keyset = sortBy.keySet();
-			for (String columnName : keyset) {
-				if (columnName.trim().contains("region") ||
-						columnName.trim().contains("zone_details") || 
-						columnName.trim().contains("district") || 
-						columnName.trim().contains("dealer_name")) {
-					if (orderBy.length() == 0) {
-						orderBy.append(" ORDER BY " + columnName.trim() + " " + sortBy.get(columnName));
-					} else {
-						orderBy.append(", " + columnName.trim() + " " + sortBy.get(columnName));
-					}
-				}
+		if (dealerList != null && !dealerList.isEmpty()) {
+			
+			StringBuffer dealers = new StringBuffer();
+			for (Dealer dealer : dealerList) {
+				dealers.append("'" + dealer.getDlrCode().trim() + "', ");
 			}
-		}
-				
+			
+			String dealerSting = dealers.substring(0, dealers.length() - 2);
+			
+			if (queryCondition.length() == 0) {
+				queryCondition.append(" where ");
+				queryCondition.append("dealer_code in (" + dealerSting + ")");
+			} else {
+				queryCondition.append(" and dealer_code in (" + dealerSting + ")");
+			}			
+		}				
 		
 		if (!(queryCondition.length() == 0)) {
 			query.append(queryCondition);			
-		}
-		
-		if (!(orderBy.length() == 0)) {
-			query.append(orderBy);
-		}		
+		}	
 		
 		List<RetailSales> retailSales = jdbcTemplate.query(query.toString(), new RetailSalesRowMapper());
 		
@@ -104,42 +67,26 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 	}
 
 	@Override
-	public Integer findMonthSummary(String region, String zone, String district,
-			String dealer_name, int year, int month) {
+	public Integer findMonthSummary(List<Dealer> dealerList, int year, int month) {
 		// TODO Auto-generated method stub
 		StringBuilder query = new StringBuilder("select sum(qty) from RETAILSALES");
 		StringBuilder queryCondition = new StringBuilder();
+			
 		
-		if (region!=null && !region.trim().isEmpty()) {
+		if (dealerList != null && !dealerList.isEmpty()) {
+			
+			StringBuffer dealers = new StringBuffer();
+			for (Dealer dealer : dealerList) {
+				dealers.append("'" + dealer.getDlrCode().trim() + "', ");
+			}
+			
+			String dealerSting = dealers.substring(0, dealers.length() - 2);
+			
 			if (queryCondition.length() == 0) {
 				queryCondition.append(" where ");
-				queryCondition.append("region=" + "'" + region.trim() + "'");
+				queryCondition.append("dealer_code in (" + dealerSting + ")");
 			} else {
-				queryCondition.append(" and region=" + "'" + region.trim() + "'");
-			}			
-		}
-		if (zone!=null && !zone.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("zone_details=" + "'" + zone.trim() + "'");
-			} else {
-				queryCondition.append(" and zone_details=" + "'" + zone.trim() + "'");
-			}			
-		}
-		if (district!=null && !district.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("district=" + "'" + district.trim() + "'");
-			} else {
-				queryCondition.append(" and district=" + "'" + district.trim() + "'");
-			}			
-		}
-		if (dealer_name!=null && !dealer_name.trim().isEmpty()) {
-			if (queryCondition.length() == 0) {
-				queryCondition.append(" where ");
-				queryCondition.append("dealer_name=" + "'" + dealer_name.trim() + "'");
-			} else {
-				queryCondition.append(" and dealer_name=" + "'" + dealer_name.trim() + "'");
+				queryCondition.append(" and dealer_code in (" + dealerSting + ")");
 			}			
 		}
 		if (year > 0) {

@@ -14,6 +14,7 @@ import com.mazdausa.mfpsalesms.helper.RetailSalesHelper;
 import com.mazdausa.mfpsalesms.model.MonthFeed;
 import com.mazdausa.mfpsalesms.model.RetailSales;
 import com.mazdausa.mfpsalesms.model.request.RetailCarlineSalesRequest;
+import com.mazdausa.mfpsalesms.model.response.Dealer;
 import com.mazdausa.mfpsalesms.pojo.CarlineSale;
 import com.mazdausa.mfpsalesms.repository.RetailSalesDao;
 
@@ -26,25 +27,29 @@ public class RetailSalesServiceImpl implements RetailSalesService {
 
 	private RetailSalesDao retailSalesDao;
 	private RetailSalesHelper retailSalesHelper;
+	private DealerService dealerService;
 	
 	@Autowired
-	public RetailSalesServiceImpl(RetailSalesDao retailSalesDao, RetailSalesHelper retailSalesHelper) {
+	public RetailSalesServiceImpl(RetailSalesDao retailSalesDao, RetailSalesHelper retailSalesHelper, DealerService dealerService) {
 		// TODO Auto-generated constructor stub
 		this.retailSalesDao = retailSalesDao;
 		this.retailSalesHelper = retailSalesHelper;
+		this.dealerService = dealerService;
 	}
 	
 	@Override
 	public List<RetailSales> getRetailSalesData(String region, String zone, String district,
-			String dealer_name, int year, Map<String, String> sortBy) {
+			String dealer_name, int year, List<String> sortBy) {
 		// TODO Auto-generated method stub
 				
+		List<Dealer> dealers = (List<Dealer>) this.dealerService.fetchDealerList(region, zone, district,
+				dealer_name, sortBy).getDealerBeanList();
+		
 		List<com.mazdausa.mfpsalesms.pojo.RetailSales> retailSalesPojoList = 
-				(List<com.mazdausa.mfpsalesms.pojo.RetailSales>) retailSalesDao.findAll(region, zone, district,
-						dealer_name, sortBy);
+				(List<com.mazdausa.mfpsalesms.pojo.RetailSales>) retailSalesDao.findAll(dealers);
 		
 		List<RetailSales> retailSalesList = new ArrayList<RetailSales>();
-		retailSalesHelper.prepareRetailSalesList(retailSalesPojoList, retailSalesList);
+		retailSalesHelper.prepareRetailSalesList(dealers, retailSalesPojoList, retailSalesList);	
 		
 		return retailSalesList;
 	}
@@ -58,7 +63,11 @@ public class RetailSalesServiceImpl implements RetailSalesService {
 		String qty = null;
 		MonthFeed monthFeed = null;
 		for (int i = 0; i < 12; i++) {
-			monthSummary = retailSalesDao.findMonthSummary(region, zone, district, dealer_name, year, i+1);
+			
+			List<Dealer> dealers = (List<Dealer>) this.dealerService.fetchDealerList(region, zone, district,
+					dealer_name, null).getDealerBeanList();
+						
+			monthSummary = retailSalesDao.findMonthSummary(dealers, year, i+1);
 			if (monthSummary == null) {
 				qty = null;
 			} else {
@@ -101,24 +110,17 @@ public class RetailSalesServiceImpl implements RetailSalesService {
 
 	@Override
 	public List<RetailSales> getDailySalesRateData(String region, String zone, String district,
-			String dealer_name, int year, Map<String, String> sortBy) {
+			String dealer_name, int year, List<String> sortBy) {
 		// TODO Auto-generated method stub
-		/*Dealer dealer = new Dealer("", "", "", "", "");
-		MonthFeed monthFeed = new MonthFeed("", "", "");
-		
-		List<MonthFeed> monthFeeds = new ArrayList<MonthFeed>();
-		monthFeeds.add(monthFeed);
-		
-		RetailSales retailSales = new RetailSales(dealer, monthFeeds);		
-		List<RetailSales> retailSalesList = new ArrayList<RetailSales>();
-		retailSalesList.add(retailSales);*/
+				
+		List<Dealer> dealers = (List<Dealer>) this.dealerService.fetchDealerList(region, zone, district,
+				dealer_name, sortBy).getDealerBeanList();
 		
 		List<com.mazdausa.mfpsalesms.pojo.RetailSales> retailSalesPojoList = 
-				(List<com.mazdausa.mfpsalesms.pojo.RetailSales>) retailSalesDao.findAll(region, zone, district,
-						dealer_name, sortBy);
+				(List<com.mazdausa.mfpsalesms.pojo.RetailSales>) retailSalesDao.findAll(dealers);
 		
 		List<RetailSales> retailSalesList = new ArrayList<RetailSales>();
-		retailSalesHelper.prepareRetailSalesList(retailSalesPojoList, retailSalesList);
+		retailSalesHelper.prepareRetailSalesList(dealers, retailSalesPojoList, retailSalesList);
 		
 		return retailSalesList;
 	}
@@ -132,7 +134,11 @@ public class RetailSalesServiceImpl implements RetailSalesService {
 		String qty = null;
 		MonthFeed monthFeed = null;
 		for (int i = 0; i < 12; i++) {
-			monthSummary = retailSalesDao.findMonthSummary(region, zone, district, dealer_name, year, i+1);
+			
+			List<Dealer> dealers = (List<Dealer>) this.dealerService.fetchDealerList(region, zone, district,
+					dealer_name, null).getDealerBeanList();
+			
+			monthSummary = retailSalesDao.findMonthSummary(dealers, year, i+1);
 			if (monthSummary == null) {
 				qty = null;
 			} else {

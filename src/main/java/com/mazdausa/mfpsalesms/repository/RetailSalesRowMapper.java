@@ -22,11 +22,7 @@ public class RetailSalesRowMapper implements RowMapper<RetailSales> {
 		
 		RetailSales retailSales = new RetailSales();
 		retailSales.setId(rs.getInt("id"));
-		retailSales.setRegion(rs.getString("region"));
-		retailSales.setZone_details(rs.getString("zone_details"));
-		retailSales.setDistrict(rs.getString("district"));
 		retailSales.setDealer_code(rs.getString("dealer_code"));
-		retailSales.setDealer_name(rs.getString("dealer_name"));
 		retailSales.setMonth(rs.getInt("month"));
 		retailSales.setYear(rs.getInt("year"));
 		retailSales.setQty(rs.getInt("qty"));

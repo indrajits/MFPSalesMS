@@ -3,6 +3,7 @@
  */
 package com.mazdausa.mfpsalesms.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class RetailSalesControllerImpl implements RetailSalesController {
 			@RequestParam(name = "district", required = false) String district, 
 			@RequestParam(name = "dealer_name", required = false) String dealer_name,
 			@RequestParam(name = "year", required = true) int year,
-			@RequestParam(name = "sortBy", required = false) Map<String, String> sortBy) {
+			@RequestParam(name = "sortBy", required = false) List<String> sortBy) {
 		// TODO Auto-generated method stub
 		
 		RetailSalesResponse retailSalesResponse = 
@@ -108,7 +109,7 @@ public class RetailSalesControllerImpl implements RetailSalesController {
 			@RequestParam(name = "district", required = false) String district,
 			@RequestParam(name = "dealer_name", required = false) String dealer_name,
 			@RequestParam(name = "year", required = true) int year,
-			@RequestParam(name = "sortBy", required = false) Map<String, String> sortBy) {
+			@RequestParam(name = "sortBy", required = false) List<String> sortBy) {
 		// TODO Auto-generated method stub
 		RetailSalesResponse retailSalesResponse = 
 				new RetailSalesResponse(this.retailSalesService.
