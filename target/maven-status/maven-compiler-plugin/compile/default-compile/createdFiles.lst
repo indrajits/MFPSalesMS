@@ -1,6 +1,7 @@
 com\mazdausa\mfpsalesms\service\DealerService.class
 com\mazdausa\mfpsalesms\MfpSaleMsApplication.class
 com\mazdausa\mfpsalesms\repository\RetailSalesRowMapper.class
+com\mazdausa\mfpsalesms\MfpSaleMsApplication$1.class
 com\mazdausa\mfpsalesms\pojo\CarlineSale.class
 com\mazdausa\mfpsalesms\repository\RetailSalesDao.class
 com\mazdausa\mfpsalesms\service\RetailSalesService.class
