@@ -18,6 +18,8 @@ import com.mazdausa.mfpsalesms.pojo.RetailSales;
 public interface RetailSalesDao {
 
 	public List<RetailSales> findAll(List<Dealer> dealerList);
+	public List<RetailSales> findAllDailySalesRate(List<Dealer> dealerList);
+	public Integer findMonthSummaryDailySalesRate(List<Dealer> dealerList, int year, int month);	
 	public Integer findMonthSummary(List<Dealer> dealerList, int year, int month);
 	public List<CarlineSale> fetchAllCarlineSales(List<String> carlines, 
 			Map<String, String> sortBy, int year,

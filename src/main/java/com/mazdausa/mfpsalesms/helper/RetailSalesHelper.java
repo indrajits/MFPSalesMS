@@ -26,7 +26,7 @@ import com.mazdausa.mfpsalesms.pojo.CarlineSale;
 @Component
 public class RetailSalesHelper {
 
-	public void prepareRetailSalesList(List<Dealer> dealerList,
+	public void prepareSalesList(List<Dealer> dealerList,
 			List<com.mazdausa.mfpsalesms.pojo.RetailSales> retailSalesPojoList,
 			List<RetailSales> retailSalesList) {
 		Map<String, RetailSales> map = new LinkedHashMap<String, RetailSales>();

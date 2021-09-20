@@ -162,4 +162,86 @@ public class RetailsSalesDaoImpl implements RetailSalesDao {
 		return carlineSales;
 	}
 
+	@Override
+	public List<RetailSales> findAllDailySalesRate(List<Dealer> dealerList) {
+		// TODO Auto-generated method stub
+		StringBuilder query = new StringBuilder("select * from DailySalesRate");
+		StringBuilder queryCondition = new StringBuilder();
+		//StringBuilder orderBy = new StringBuilder();
+		
+		if (dealerList != null && !dealerList.isEmpty()) {
+			
+			StringBuffer dealers = new StringBuffer();
+			for (Dealer dealer : dealerList) {
+				dealers.append("'" + dealer.getDlrCode().trim() + "', ");
+			}
+			
+			String dealerSting = dealers.substring(0, dealers.length() - 2);
+			
+			if (queryCondition.length() == 0) {
+				queryCondition.append(" where ");
+				queryCondition.append("dealer_code in (" + dealerSting + ")");
+			} else {
+				queryCondition.append(" and dealer_code in (" + dealerSting + ")");
+			}			
+		}				
+		
+		if (!(queryCondition.length() == 0)) {
+			query.append(queryCondition);			
+		}	
+		
+		List<RetailSales> retailSales = jdbcTemplate.query(query.toString(), new RetailSalesRowMapper());
+		
+		return retailSales;
+	}
+
+	@Override
+	public Integer findMonthSummaryDailySalesRate(List<Dealer> dealerList, int year, int month) {
+		// TODO Auto-generated method stub
+		StringBuilder query = new StringBuilder("select sum(qty) from DailySalesRate");
+		StringBuilder queryCondition = new StringBuilder();
+			
+		
+		if (dealerList != null && !dealerList.isEmpty()) {
+			
+			StringBuffer dealers = new StringBuffer();
+			for (Dealer dealer : dealerList) {
+				dealers.append("'" + dealer.getDlrCode().trim() + "', ");
+			}
+			
+			String dealerSting = dealers.substring(0, dealers.length() - 2);
+			
+			if (queryCondition.length() == 0) {
+				queryCondition.append(" where ");
+				queryCondition.append("dealer_code in (" + dealerSting + ")");
+			} else {
+				queryCondition.append(" and dealer_code in (" + dealerSting + ")");
+			}			
+		}
+		if (year > 0) {
+			if (queryCondition.length() == 0) {
+				queryCondition.append(" where ");
+				queryCondition.append("year=" + year);
+			} else {
+				queryCondition.append(" and year=" + year);
+			}			
+		}
+		if (month > 0 && month < 13) {
+			if (queryCondition.length() == 0) {
+				queryCondition.append(" where ");
+				queryCondition.append("month=" + month);
+			} else {
+				queryCondition.append(" and month=" + month);
+			}			
+		}
+		
+		if (!(queryCondition.length() == 0)) {
+			query.append(queryCondition);			
+		}
+		
+		Integer monthSummary = jdbcTemplate.queryForObject(query.toString(), Integer.class);
+		
+		return monthSummary;
+	}
+
 }
