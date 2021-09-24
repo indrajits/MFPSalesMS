@@ -12,6 +12,7 @@ com\mazdausa\mfpsalesms\config\SwaggerConfig.class
 com\mazdausa\mfpsalesms\repository\CarlineSalesRowMapper.class
 com\mazdausa\mfpsalesms\model\response\DealerResponse.class
 com\mazdausa\mfpsalesms\helper\RetailSalesHelper.class
+com\mazdausa\mfpsalesms\repository\DailySalesRateRowMapper.class
 com\mazdausa\mfpsalesms\client\RestClient.class
 com\mazdausa\mfpsalesms\model\RetailSales.class
 com\mazdausa\mfpsalesms\service\DealerServiceImpl.class

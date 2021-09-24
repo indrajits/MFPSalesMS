@@ -18,6 +18,7 @@ D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com
 D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\model\response\DealerResponse.java
 D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\model\response\Dealer.java
 D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\model\RetailSalesCarline.java
+D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\repository\DailySalesRateRowMapper.java
 D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\model\MonthFeed.java
 D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\service\RetailSalesServiceImpl.java
 D:\java_projects\git-workspaces\eclipse-jee-2021-06\MFPSalesMS\src\main\java\com\mazdausa\mfpsalesms\repository\RetailSalesDao.java
